@@ -3,6 +3,7 @@ const api = new ApiOrder();
 import ApiCarrito from '../api/apiCarrito.js'
 const apiCar = new ApiCarrito()
 import {configurar, mandarMail}  from '../utils/enviarMail.js';
+import logger from '../utils/logger.js'
 
 class orderController {
 
@@ -11,6 +12,7 @@ class orderController {
             const ordenes = await api.obtenerOrdenes()
             res.status(200).json(ordenes)
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error:error.message})
         }
     }
@@ -21,6 +23,7 @@ class orderController {
             const orden = await api.obtenerOrden(id)
             res.status(200).json(ordenes)
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error:error.message})
         }
     }
@@ -34,6 +37,7 @@ class orderController {
             mandarMail(opt, 'Nueva orden generada', car[0])
             res.status(200).json({success: true, orden: car[0]})
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error: error.message})
         }
     }
@@ -45,6 +49,7 @@ class orderController {
             const mod = await api.modificarOrden(id,orden)
             res.status(200).json({success: true, orden: mod})
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error: error.message})
         }
     }
@@ -55,6 +60,7 @@ class orderController {
             const mod = await api.eliminarOrden(id)
             res.status(200).json({success: true, orden: mod})
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error: error.message})
         }
     }

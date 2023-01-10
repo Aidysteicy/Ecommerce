@@ -1,4 +1,5 @@
-const fs = require('fs').promises;
+import fs from 'fs';
+import { logger } from '../utils/logger.js';
 
 class ContenedorCarrito {
 

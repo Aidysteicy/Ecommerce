@@ -2,26 +2,35 @@ import generateToken from '../utils/generateToken.js'
 import { createHash, isValidePassword } from '../utils/passHelper.js';
 import ApiUsuarios from '../api/apiUsuarios.js'
 const apiUser = new ApiUsuarios()
+import logger from '../utils/logger.js'
 
 class sessionController{
 
     async signupControl (req, res) {
-        const {fullname, email, password, validatePassword, address, phone, admin} = req.body
-        if(password !== validatePassword) return res.render('fail', {error_message: `No coincide el password`})
-        let user = await apiUser.obtenerUsuario(email)
-        if(user.length!==0 && user!= 'nok'){
-            return res.render('fail', {error_message: `User ${email} ya existe`})
+        try {
+            const {fullname, email, password, validatePassword, address, phone, admin} = req.body
+            if(password !== validatePassword) return res.render('fail', {error_message: `No coincide el password`})
+            let user = await apiUser.obtenerUsuario(email)
+            if(user.length!==0 && user!= 'nok'){
+                return res.render('fail', {error_message: `User ${email} ya existe`})
+            }
+            const newUser = {
+                fullname,
+                email,
+                password: createHash(password),
+                address,
+                phone,
+                admin
+            }
+            await apiUser.guardarUsuario(newUser)
+            res.redirect('/')
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
         }
-        const newUser = {
-            fullname,
-            email,
-            password: createHash(password),
-            address,
-            phone,
-            admin
-        }
-        await apiUser.guardarUsuario(newUser)
-        res.redirect('/')
     }
 
     async loginControl (req, res){
@@ -38,6 +47,7 @@ class sessionController{
             res.cookie('access_Token', access_token, { httpOnly: true })
             res.redirect('/productos')
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -46,15 +56,23 @@ class sessionController{
     }
     
     async logoutControl (req, res, next){
-        const username = req.user
-        res.clearCookie('access_Token')
-        req.logout((err)=>{
-             if(err) { 
+        try {
+            const username = req.user
+            res.clearCookie('access_Token')
+            req.logout((err)=>{
+                if(err) { 
                  console.log(err)
                  return next(err)
-             }  
-             res.render('logout', {user: username}) 
-        })
+                }  
+                res.render('logout', {user: username}) 
+            })
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
+        }
     }
     
     async failControl (req,res){

@@ -2,6 +2,7 @@ import { connect } from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config()
 import {config } from '../../config.js';
+import { logger } from '../utils/logger.js';
 
 connect(config.mongodb.cnxStr, config.mongodb.options)
 
@@ -22,8 +23,7 @@ class ContenedorMongo {
             }
             return this.modelo(objeto)
         } catch (error) {
-            console.log(error)
-            return 'nok'
+            logger.error('Error al guardar objeto en la BD')
         }
     }
 
@@ -32,8 +32,7 @@ class ContenedorMongo {
             await this.modelo.updateOne({_id: id}, {$set:objeto})
             return 'ok'
         } catch (error) {
-            console.log(error);
-            return 'nok'
+            logger.error('Error al agregar objeto en la BD')
         }
     }
 
@@ -42,7 +41,7 @@ class ContenedorMongo {
             const docs = await this.modelo.find()
             return docs
         } catch (error) {
-            console.log(error)
+            logger.error('Error al obtener documentos')
         }
     }
 
@@ -51,35 +50,30 @@ class ContenedorMongo {
             const doc = await this.modelo.find(field)
             return doc
         } catch (error) {
-            console.log(error)
-            return 'nok'
+            logger.error('Error al obtener documento')
         }
     }
 
     async deleteById(id){
         try {
-            const buscar = await this.getbyId(id)
-            if(buscar.length!=0 && buscar!='nok'){
-                await this.modelo.deleteOne({_id: id})
-                return 'ok'
+            const buscar = await this.getbyField({_id: id})
+            if(buscar.length!=0 && buscar!=undefined){
+                return await this.modelo.deleteOne({_id: id})
             }
-            return 'nok'
+            logger.error('No existe un documento con ese ID')
+            return
         } catch (error) {
-            console.log(error)
-            return 'nok'
+            logger.error('Error al eliminar documento')
         }
     }
 
     async deleteAll(){
         try {
-            await this.modelo.deleteMany({})
-            return 'ok'
+            return await this.modelo.deleteMany({})
         } catch (error) {
-            console.log(error);
-            return 'nok'
+            logger.error('Error al eliminar documentos')
         }
     }
-    
 }
 
 export {ContenedorMongo}

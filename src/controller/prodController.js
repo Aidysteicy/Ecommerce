@@ -1,5 +1,6 @@
 import ApiProductos from '../api/apiProductos.js'
 const api = new ApiProductos()
+import logger from '../utils/logger.js'
 
 class prodController {
 
@@ -12,6 +13,7 @@ class prodController {
             productos===undefined || productos.length===0 ? flag=false : flag=true
             res.status(200).render('main',{ isRender: flag, productos: productos})
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -20,32 +22,57 @@ class prodController {
     }
 
     async getProdId(req,res){
-        const {id} = req.params
-        let flag
-        const prod = await api.obtenerProducto(id)
-        prod===undefined || prod.length===0 ? flag=false : flag=true
-        res.status(200).render('main',{ isRender: flag, productos: prod})
+        try {
+            const {id} = req.params
+            let flag
+            const prod = await api.obtenerProducto(id)
+            prod===undefined || prod.length===0 ? flag=false : flag=true
+            res.status(200).render('main',{ isRender: flag, productos: prod})
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
+        }
     }
 
     async getProdField(req,res){
-        const {categoria} = req.params
-        let flag
-        const prod = await api.filtrarCategoria(categoria)
-        prod===undefined || prod.length===0 ? flag=false : flag=true
-        res.status(200).render('main',{ isRender: flag, productos: prod})
+        try {
+            const {categoria} = req.params
+            let flag
+            const prod = await api.filtrarCategoria(categoria)
+            prod===undefined || prod.length===0 ? flag=false : flag=true
+            res.status(200).render('main',{ isRender: flag, productos: prod})
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
+        }
     }
     
     async saveProd (req,res){
-        let admin = true
-        let flag
-        if(admin){
-            const producto = req.body
-            api.guardarProducto(producto)
-            const prod = api.obtenerProductos()
-            prod===undefined || prod.length===0 ? flag=false : flag=true
-            res.status(200).render('main',{isRender: flag, productos: prod})
-        }else{
-            res.json({error: -1, descripcion: 'Ruta /api/productos metodo POST no autorizada'})
+        try {
+            let admin = true
+            let flag
+            if(admin){
+                const producto = req.body
+                api.guardarProducto(producto)
+                const prod = api.obtenerProductos()
+                prod===undefined || prod.length===0 ? flag=false : flag=true
+                res.status(200).render('main',{isRender: flag, productos: prod})
+            }else{
+                logger.error('Ruta /productos metodo POST no autorizada')
+                res.json({error: -1, descripcion: 'Ruta /productos metodo POST no autorizada'})
+            }
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
         }
     }
 
@@ -53,15 +80,17 @@ class prodController {
         let admin = true
         if(admin){
             const {id}=req.params
-             const prod = req.body
-             const mod = await api.modificarProducto(id, prod)
-             if(mod.length!=0 && mod!='nok'){
-                 res.send({msg: 'Producto Actualizado'}) 
-              }else{
-                  res.send({msg: 'Error al actualizar producto'})
+            const prod = req.body
+            const mod = await api.modificarProducto(id, prod)
+            if(mod.length!=0 && mod!=undefined){
+                res.send({msg: 'Producto Actualizado'}) 
+            }else{
+                logger.error('Error al actualizar producto')
+                res.send({msg: 'Error al actualizar producto'})
               }
          }else{
-             res.json({error: -1, descripcion: 'Ruta /api/productos/:id metodo PUT no autorizada'})
+            logger.error('Ruta /productos/:id metodo PUT no autorizada')
+             res.json({error: -1, descripcion: 'Ruta /productos/:id metodo PUT no autorizada'})
          }
     }
 
@@ -70,13 +99,15 @@ class prodController {
         if(admin){
             const {id}=req.params
             const prod = api.eliminarProducto(id)
-            if(prod.length!=0 && prod!='nok'){
+            if(prod.length!=0 && prod!=undefined){
                 res.send({msg: 'Producto Eliminado'}) 
              }else{
+                logger.error('No existe un producto con ese ID')
                 res.send({msg: 'No existe un producto con ese ID'})
              }
         }else{
-            res.json({error: -1, descripcion: 'Ruta /api/productos/:id metodo DELETE no autorizada'})
+            logger.error('Ruta /productos/:id metodo DELETE no autorizada')
+            res.json({error: -1, descripcion: 'Ruta /productos/:id metodo DELETE no autorizada'})
         }
     }
 }

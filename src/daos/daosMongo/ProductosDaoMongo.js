@@ -1,6 +1,7 @@
 import { ContenedorMongo } from '../../contenedores/contenedorMongo.js';
 import Producto from '../../models/productos.model.js';
 import prodDto from '../../dto/productDto.js'
+import { logger } from '../utils/logger.js';
 class ProductosDaoMongo extends ContenedorMongo{
 
     constructor(){
@@ -11,7 +12,7 @@ class ProductosDaoMongo extends ContenedorMongo{
             const docs = await this.modelo.find()
             return prodDto(docs)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
     async getbyField(field){
@@ -19,7 +20,7 @@ class ProductosDaoMongo extends ContenedorMongo{
             const doc = await this.modelo.find(field)
             return prodDto(doc)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 }

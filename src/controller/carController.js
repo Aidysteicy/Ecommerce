@@ -2,6 +2,7 @@ import ApiCarrito from '../api/apiCarrito.js'
 const api = new ApiCarrito()
 import ApiProducto from '../api/apiProductos.js'
 const apiProd = new ApiProducto()
+import { logger } from '../utils/logger.js';
 
 class carController {
 
@@ -13,6 +14,7 @@ class carController {
             carr===undefined || carr.length===0 ? flag=false : flag=true
             res.status(200).render('carrito',{isRender: flag, productos: carr[0].productos})
         } catch (error) {
+            logger.error(error.message)
             res.status(500).json({error:error.message})
         }
     }
@@ -21,9 +23,10 @@ class carController {
         const {id} = req.params
         const micarrito = api.obtenerCarrito({_id: id})
         if(micarrito.length!=0 && micarrito!='nok'){
-             res.json(micarrito)
+            res.status(200).json(micarrito)
         }else{
-            res.send({msg: 'No existe un carrito con ese ID'})
+            logger.error(error.message)
+            res.status(500).json({msg: error.message})
         }
     }
 
@@ -43,27 +46,35 @@ class carController {
             const add = await api.guardarProducto(req.body, username, cant)
             res.json({success: true, message: add})
         } catch (error) {
-          res.status(500).json({error: error.message})
+            logger.error(error.message)
+            res.status(500).json({error: error.message})
         }
     }
 
     async putCar (req,res){
-        const {id}=req.params
-        const prod = req.body
-        const mod = api.modificarCarrito(id,prod)
-        if(mod.length!=0 && mod!='nok'){
-           res.send({msg: 'Producto Actualizado'}) 
-        }else{
-            res.send({msg: 'Error al actualizar producto'})
+        try {
+            const {id}=req.params
+            const prod = req.body
+            const mod = api.modificarCarrito(id,prod)
+            if(mod.length!=0 && mod!=undefined){
+                res.send({msg: 'Carrito modificado'}) 
+            }else{
+                res.send({msg: 'Error al modificar carrito'})
+            }
+        } catch (error) {
+            logger.error(error.message)
         }
+        
+        
     }
 
     async deleteCar(req,res){
         const {id}=req.params
         const prod = await api.eliminarCarrito(id)
-        if(prod.length!=0 && prod!='nok'){
+        if(prod.length!=0 && prod!=undefined){
             res.send({msg: 'Carrito Eliminado'}) 
         }else{
+            logger.error('No existe un carrito con ese ID')
             res.send({msg: 'No existe un carrito con ese ID'})
         }
     }

@@ -1,13 +1,15 @@
 import ApiMensajes from '../api/apiMensajes.js'
+import logger from '../utils/logger.js'
 const api = new ApiMensajes()
 
 class chatController {
 
     async getChat (req, res) {
         const chat = await mensajesDao.getAll()
-        if(chat.length!=0 && chat!='nok'){
-           res.send(chat) 
+        if(chat.length!=0 && chat!=undefined){
+            res.send(chat) 
         }else{
+            logger.error('No existe el chat')
             res.send({msg: 'No existe el chat'})
         }
     }
@@ -18,6 +20,7 @@ class chatController {
         if(mens.length!=0 &&mens!='nok'){
             res.send(mens) 
          }else{
+            logger.error('No existen mensajes de ese usuario')
             res.send({msg: 'No existen mensajes de ese usuario'})
          }
     }
@@ -29,6 +32,7 @@ class chatController {
         if(mod.length!=0 && mod!='nok'){
             res.send({msg: 'Mensaje Actualizado'}) 
         }else{
+            logger.error('Error al actualizar mensaje')
             res.send({msg: 'Error al actualizar mensaje'})
         }
     }
@@ -39,7 +43,8 @@ class chatController {
         if(prod.length!=0 && prod!='nok'){
            res.send({msg: 'Producto Eliminado'}) 
         }else{
-           res.send({msg: 'No existe un mensaje con ese ID'})
+            logger.error('No existe un mensaje con ese ID')
+            res.send({msg: 'No existe un mensaje con ese ID'})
         }
     }
 }
