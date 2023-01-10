@@ -1,0 +1,22 @@
+{{>header}}
+<div>
+{{#if isRender}}
+    <h2 style="text-align: center;">Productos del Carrito</h2>
+    <button onclick="location.href=`http://localhost:8080/orden`">Generar Compra</button>
+    <div class="contenedor d-flex p-2 flex-wrap">
+            {{#each productos}}
+                <div class="card tarjeta">
+                    <img class="card-img-top img-fluid" alt="{{descripcion}}" src="{{foto}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{nombre}} - cod. {{codigo}} </h5>
+                        <p class="card-text">Precio: {{precio}} $</p>
+                        <a href="#" class="btn btn-primary">-</a>
+                        <a href="#" class="btn btn-primary">+</a>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <div class="contenedor card tarjeta title" style="height:200px">No hay Productos</div>
+{{/if}}
+{{>footer}}
