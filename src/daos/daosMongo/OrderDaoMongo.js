@@ -17,7 +17,8 @@ class OrderDaoMongo extends ContenedorMongo{
           items: items,
           email: car.email
         };
-        return await this.save(newOrder, 'ordenes');
+        await this.save(newOrder, 'ordenes');
+        return newOrder
       };
 
     convertir(prod){

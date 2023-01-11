@@ -2,7 +2,7 @@ import ApiCarrito from '../api/apiCarrito.js'
 const api = new ApiCarrito()
 import ApiProducto from '../api/apiProductos.js'
 const apiProd = new ApiProducto()
-import { logger } from '../utils/logger.js';
+import logger  from '../utils/logger.js';
 
 class carController {
 

@@ -7,25 +7,23 @@ import rutaOrden from './orderRoute.js'
 import passport from '../middlewares/passport.js';
 import sessionController from '../controller/sessionController.js'
 const session = new sessionController()
-
-router.get('/', (req,res)=>{
-    res.status(200).render('login')
-})
-router.get('/signup', (req,res)=>{
-    res.status(200).render('signup')
-})
-router.get('/agregarP', (req,res)=>{
-    res.status(200).render('addProd')
-})
-router.get('/agregarC', (req,res)=>{
-    res.status(200).render('addToCar')
-})
+//**************Informacion del server***************//
+router.get('/', session.info)
+//***************Formulario de login*****************//
+router.get('/login', session.formLogin)
+//*************Formulario de Registro****************//
+router.get('/signup', session.formSignup)
+//********Formulario para agregar productos**********//
+router.get('/agregarP', session.formProd)
+//*****Formulario para agregar Prod al Carrito********//
+router.get('/agregarC', session.formSignup)
+//*************Registrar nuevo usuario***************//
 router.post('/login', session.loginControl)
-//Cargar nuevo usuario
+//*************Registrar nuevo usuario***************//
 router.post("/signup", session.signupControl);
-
+//******************Carga errores********************//
 router.get('/fail', session.failControl)
-
+//****************Cierre de sesion*******************//
 router.get('/logout', session.logoutControl)
 
 router.use(passport.authenticate('login',{

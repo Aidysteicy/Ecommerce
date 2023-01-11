@@ -2,7 +2,7 @@ import { connect } from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config()
 import {config } from '../../config.js';
-import { logger } from '../utils/logger.js';
+import  logger  from '../utils/logger.js';
 
 connect(config.mongodb.cnxStr, config.mongodb.options)
 

@@ -1,13 +1,15 @@
 import { createTransport } from'nodemailer'
-
+import logger from './logger.js'
+import dotenv from 'dotenv'
+dotenv.config()
 //********************Mail******************* */
 
 const transporter = createTransport({
    service: 'gmail',
    port: 587,
    auth: {
-       user: 'aidysteicy@gmail.com',
-       pass: 'lbrgzhzovmleldvh'
+       user: process.env._EMAIL,
+       pass: process.env._PASS
    }
 })
 function configurar(mail){
@@ -22,18 +24,28 @@ function configurar(mail){
 }
 }
 
-
-async function mandarMail(mailOptions, asunto, option) {
+async function mandarMail(mailOptions, asunto, html) {
     try {
-        const html = `<div>Orden de Compra Generada: 
-        <h3>email:${option.email}</h3>,
-        <h3>N° Orden: ${option.orden}</h3>,
-        <h3>items: ${option.items}</h3>,
-        <h3>fecha: ${option.fecha}</h3> </div>`
-        const info = await transporter.sendMail({...mailOptions, subject: asunto, html: html})
+        return await transporter.sendMail({...mailOptions, subject: asunto, html: html})
      } catch (error) {
-        console.log(error)
+        logger.error(error)
      }
 }
 
-export {configurar, mandarMail}
+function vistaMail(option, tipo){
+    let html
+    if(tipo===1){
+        html = `<div>Orden de Compra Generada: 
+        <h3>email:${option.email}</h3>,
+        <h3>N° Orden: ${option.orden}</h3>,
+        <h3>items: ${option.items}</h3> </div>`
+    } else if(tipo===2){
+        html = `<div>Ifo del nuevo usuario: 
+        <h3>nombre:${option.email}</h3>,
+        <h3>nombre: ${option.nombre}</h3>,
+        <h3>direcion: ${option.direccion}</h3>,
+        <h3>telefono: ${option.telefono}</h3> </div>`
+    } return html
+}
+
+export {configurar, mandarMail, vistaMail}

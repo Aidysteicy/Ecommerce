@@ -19,7 +19,8 @@ log4js.configure({
   },
 });
 
-const selectLog =  process.env.NODE_ENV === "PROD" ? "prod" : "dev";
+const selectLog =  process.env.NODE_ENV === "production" ? "prod" : "dev";
 
 const logger = log4js.getLogger(selectLog);
+
 export default logger;

@@ -9,7 +9,8 @@ const admin = true
 
 //**********Rutas a las ordenes de compra***********//
 rutaOrdenes.get('/', controlador.saveOrder);
-rutaOrdenes.get('/:id', controlador.getOrder);
+rutaOrdenes.get('/all', controlador.getOrders);
+rutaOrdenes.get('all/:id', controlador.getOrder);
 //Agregar Orden
 rutaOrdenes.post('/', controlador.saveOrder);
 //Actualizar Orden

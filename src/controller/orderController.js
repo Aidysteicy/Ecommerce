@@ -2,7 +2,7 @@ import ApiOrder from '../api/apiOrder.js';
 const api = new ApiOrder();
 import ApiCarrito from '../api/apiCarrito.js'
 const apiCar = new ApiCarrito()
-import {configurar, mandarMail}  from '../utils/enviarMail.js';
+import {configurar, mandarMail, vistaMail}  from '../utils/enviarMail.js';
 import logger from '../utils/logger.js'
 
 class orderController {
@@ -21,7 +21,7 @@ class orderController {
         try {
             const {id} = req.params
             const orden = await api.obtenerOrden(id)
-            res.status(200).json(ordenes)
+            res.status(200).json(orden)
         } catch (error) {
             logger.error(error.message)
             res.status(500).json({error:error.message})
@@ -32,10 +32,11 @@ class orderController {
         try {
             const email= req.user.email
             const car = await apiCar.obtenerCarrito({email: email})
-            await api.guardarOrden(car[0])
+            const orden = await api.guardarOrden(car[0])
             const opt = configurar(email)
-            mandarMail(opt, 'Nueva orden generada', car[0])
-            res.status(200).json({success: true, orden: car[0]})
+            const html = vistaMail(orden, 1)
+            mandarMail(opt, 'Nueva orden generada', html)
+            res.status(200).json({success: true, orden: orden})
         } catch (error) {
             logger.error(error.message)
             res.status(500).json({error: error.message})

@@ -44,7 +44,7 @@ app.use(session({
     cookie: { maxAge: 60000 },
     store: MongStore.create({mongoUrl: config.mongodb.cnxStr, mongoOptions: config.mongodb.options})
 }))
-app.use(cookieParser())
+app.use(cookieParser(process.env.COOKIES_SECRET))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())

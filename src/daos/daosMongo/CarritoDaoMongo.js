@@ -1,7 +1,7 @@
 import { ContenedorMongo } from '../../contenedores/contenedorMongo.js';
 import Carrito from '../../models/carrito.model.js';
 import cartDto from '../../dto/cartDto.js'
-import { logger } from '../utils/logger.js';
+import  logger  from '../../utils/logger.js';
 
 class CarritoDaoMongo extends ContenedorMongo{
 
