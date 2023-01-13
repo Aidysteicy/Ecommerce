@@ -2,16 +2,22 @@
 <div>
 {{#if isRender}}
     <h2 style="text-align: center;">Productos del Carrito</h2>
-    <button onclick="location.href=`http://localhost:8080/orden`">Generar Compra</button>
+    <form action="/orden" method="POST">
+        <button type="submit" class="btn btn-success btn-block">Comprar</button>                    
+    </form>
     <div class="contenedor d-flex p-2 flex-wrap">
             {{#each productos}}
                 <div class="card tarjeta">
                     <img class="card-img-top img-fluid" alt="{{descripcion}}" src="{{foto}}">
                     <div class="card-body">
                         <h5 class="card-title">{{nombre}} - cod. {{codigo}} </h5>
+                        <h5 class="card-text">{{categoria}}</h5>
                         <p class="card-text">Precio: {{precio}} $</p>
-                        <a href="#" class="btn btn-primary">-</a>
-                        <a href="#" class="btn btn-primary">+</a>
+                        <form action="/carrito/{{_id}}/delete" method="post">
+                            <input type="hidden" name="id" value="{{_id}}" />
+                            <button type="submit" class="btn btn-danger btn-block">-</button>
+                        </form>
+                        <p class="card-text">Cantidad: {{cantidad}}</p>
                     </div>
                 </div>
             {{/each}}

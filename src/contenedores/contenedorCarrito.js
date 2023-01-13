@@ -5,7 +5,7 @@ class ContenedorCarrito {
 
     constructor( ruta){
         this.ruta = ruta;
-        this.fs = fs;
+        this.fs = fs.promises;
     }
 
     async create(objeto){
@@ -24,7 +24,7 @@ class ContenedorCarrito {
             }
         return id;
         } catch (error) {
-            console.log(error);
+            logger.error(error)
         }
     }
 
@@ -58,7 +58,7 @@ class ContenedorCarrito {
             }
             return id
         } catch (error) {
-            console.log(error);
+            logger.error(error)
         }
     }
 
@@ -74,7 +74,7 @@ class ContenedorCarrito {
                 return {error: 'Carrito no encontrado'}
             }
         } catch (error) {
-            console.log(error);
+            logger.error(error)
         }
     }
 
@@ -97,7 +97,7 @@ class ContenedorCarrito {
                 }
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -107,7 +107,7 @@ class ContenedorCarrito {
             const prodJson = JSON.parse(carritos);
             return prodJson;
         } catch (error) {
-            console.log('Archivo no Existe')
+            logger.error(error)
         }
     }
 
@@ -123,7 +123,7 @@ class ContenedorCarrito {
                 return {error: 'Carrito no encontrado'}
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -155,16 +155,16 @@ class ContenedorCarrito {
                 return {error: 'Carrito no encontrado'}
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
     async deleteAll(){
         try {
             await this.fs.writeFile(this.ruta, [])
-            console.log('Todos los carritos fueron borrados')
+            logger.info('Todos los carritos fueron borrados')
         } catch (error) {
-            console.log(error);
+            logger.error(error)
         }
     }
 }

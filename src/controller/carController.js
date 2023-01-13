@@ -33,18 +33,19 @@ class carController {
     async addProd(req, res) {
         try {
             const username = req.user
-            const codigo = req.body.codigo
+            const {id} = req.params
             let cant = 1
             const car = await api.obtenerCarrito({email: username.email})
-            const products = car[0].productos
-                products.forEach(element => {
-                    if(element.codigo==codigo){
+            const producto = await apiProd.obtenerProducto(id)
+            const productsCar = car[0].productos
+                productsCar.forEach(element => {
+                    if(element._id==id){
                         cant = element.cantidad + 1
                     }
                 });
-            await api.eliminarProducto(req.body, username.email)
-            const add = await api.guardarProducto(req.body, username, cant)
-            res.json({success: true, message: add})
+            await api.eliminarProducto(producto[0]._id, username.email)
+            await api.guardarProducto(producto[0], username, cant)
+            res.redirect('/carrito')
         } catch (error) {
             logger.error(error.message)
             res.status(500).json({error: error.message})
@@ -76,6 +77,30 @@ class carController {
         }else{
             logger.error('No existe un carrito con ese ID')
             res.send({msg: 'No existe un carrito con ese ID'})
+        }
+    }
+
+    async deleteProd(req, res) {
+        try {
+            const username = req.user
+            const {id} = req.params
+            let cant
+            const producto = await apiProd.obtenerProducto(id)
+            const car = await api.obtenerCarrito({email: username.email})
+            const prod = car[0].productos
+            prod.forEach(elem => {
+                if(elem._id = id){
+                    cant = elem.cantidad - 1
+                }
+            })
+            await api.eliminarProducto(producto[0]._id, username.email)
+            if(cant!=0){
+                await api.guardarProducto(producto[0], username, cant)
+            }
+            res.redirect('/carrito')
+        } catch (error) {
+            logger.error(error.message)
+            res.status(500).json({error: error.message})
         }
     }
 }

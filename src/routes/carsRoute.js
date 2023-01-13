@@ -11,16 +11,18 @@ const admin = true
 
 //**********Rutas al carrito***********//
 
-//Mostrar todos los carritos
+//Mostrar todos los productos de un Carrito
 rutaCarrito.get('/', controlador.getProd);
-//Mostrar productos de un carrito específico
+//Mostrar productos de un carrito según su ID
 rutaCarrito.get('/:id', controlador.getProdId);
 //Agregar un carrito
-rutaCarrito.post('/', postNew, controlador.addProd)
+rutaCarrito.post('/:id/productos', postNew, controlador.addProd)
 //Update Carrito
 rutaCarrito.put('/:id/productos', controlador.putCar)
 //Eliminar el carrito
 rutaCarrito.delete('/:id', controlador.deleteCar);
+//Eliminar producto del carrito
+rutaCarrito.post('/:id/delete', controlador.deleteProd);
 
 //**********Rutas no implementadas***********//
 rutaCarrito.get('*', (req,res)=>{

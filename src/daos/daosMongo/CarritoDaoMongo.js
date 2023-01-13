@@ -23,9 +23,9 @@ class CarritoDaoMongo extends ContenedorMongo{
         }
       }
     
-      async deleteOne(prod, email) {
+      async deleteOne(idProd, email) {
         try {
-          const prodCart = await Carrito.findOneAndUpdate({email}, {$pull: {productos: {codigo: prod.codigo}}}, {new: true})
+          const prodCart = await Carrito.findOneAndUpdate({email}, {$pull: {productos: {_id: idProd}}}, {new: true})
           return cartDto(prodCart)
         } catch (error) {
           logger.error(error)

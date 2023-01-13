@@ -10,17 +10,14 @@ class ApiCarrito {
     async guardarProducto(producto, usuario, cant) { 
         return await carritoDao.addProdToCart(producto, usuario, cant)
     }
-    async eliminarProducto(producto, email) { 
-        return await carritoDao.deleteOne(producto, email)
+    async eliminarProducto(producto, usuario) { 
+        return await carritoDao.deleteOne(producto, usuario)
     }
     async modificarCarrito(id, objeto) { 
         return await carritoDao.savebyID(id, objeto)
     }
     async eliminarCarrito(id) { 
         return await carritoDao.deleteById(id)
-    }
-    async eliminarProdCar(id) { 
-        return await carritoDao
     }
 
     getInstance() {
