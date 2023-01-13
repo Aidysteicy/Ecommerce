@@ -17,11 +17,6 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/*
-const MongStore = require('connect-mongo');
-const configMongo = require('./src/config/configMongo.js')
-const passport = require('./src/utils/passport')
-*/
 app.engine('hbs', handlebars.engine({
     extname: 'hbs',
     defaultLayout: 'index.hbs',
