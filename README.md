@@ -1,6 +1,8 @@
 # Ecommerce
+Link railway
+ecommerce-production-a4f3.up.railway.app
 
-El proyecto final es un e-Commerce estructurado del siguiente modo:
+El proyecto final es un e-Commerce:
 
 - Capas MVC bien definidas, con ruteo, controlador, capa de lógica de negocios y validaciones.
 - DAOs/DTOs soportan el sistema de persistencia.
@@ -39,4 +41,4 @@ DELETE de orden por id: /orden/:id
 
 Chat:
 GET de todos los mensajes del chat: /chat/
-GET de orden por usuario: /chat/:id
+GET de orden por usuario: /chat/:email
