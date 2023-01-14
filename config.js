@@ -3,7 +3,7 @@ const config = {
         path: './database'
     },
     mongodb: {
-        cnxStr: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/?retryWrites=true&w=majority`,
+        cnxStr: `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASSWORD}@${process.env.MONGOHOST}/?retryWrites=true&w=majority`,
         //"mongodb://localhost:27017/ecommerce"
         options: {
             useNewUrlParser: true,
