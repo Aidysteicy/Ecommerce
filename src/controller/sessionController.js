@@ -110,9 +110,6 @@ class sessionController{
     formProd(req,res){
         res.status(200).render('addProd')
     }
-    formCar(req,res){
-        res.status(200).render('addToCar')
-    }
 }
 
 export default sessionController

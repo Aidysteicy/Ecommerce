@@ -16,6 +16,9 @@ class ApiMensajes {
     async eliminarMensaje(id) { 
         return await mensajesDao.deleteById(id)
     }
+    async guardarMensaje(data){
+        return await mensajesDao.save(data)
+    }
 
     getInstance() {
         if (!instance) instance = new ApiMensajes();

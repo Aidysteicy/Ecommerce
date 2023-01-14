@@ -3,7 +3,7 @@ const fecha = new Date().toLocaleString()
 
 function renderMessage(data){
     let html
-    if(data===null){
+    if(data===null || data ===undefined){
         html =`<div>No hay mensajes anteriores</div>`
     }else{
         html = data.map((elem)=>{

@@ -15,8 +15,6 @@ router.get('/login', session.formLogin)
 router.get('/signup', session.formSignup)
 //********Formulario para agregar productos**********//
 router.get('/agregarP', session.formProd)
-//*****Formulario para agregar Prod al Carrito********//
-router.get('/agregarC', session.formSignup)
 //*************Registrar nuevo usuario***************//
 router.post('/login', session.loginControl)
 //*************Registrar nuevo usuario***************//
