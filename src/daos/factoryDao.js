@@ -7,7 +7,7 @@ let mensajesDao
 let usuariosDao
 let orderDao
 
-    switch(process.env.DB){
+    switch('mongodb'){
         case 'file':
             const {ProductosDaoArchivo} = await import ('./daosArchivo/ProductosDaoArchivo.js')
             productosDao = new ProductosDaoArchivo('../database/productos.json')
