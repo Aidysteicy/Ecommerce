@@ -14,31 +14,31 @@ El proyecto final es un e-Commerce:
 - Subir a Heroku o PASS de preferencia.
 
 Login:
-POST de registro de usuario: /signup
-GET de inicio de sesión: /login
-GET de cierre de sesión: /logout
+- POST de registro de usuario: /signup
+- GET de inicio de sesión: /login
+- GET de cierre de sesión: /logout
 
 Productos:
-GET para mostrar todos los productos: /productos
-GET de producto por id: /productos/:id
-GET de productos por Categoria: /productos/categoria/:categoria
-POST de producto: /productos/
-PUT de producto: /productos/:id
-DELETE de producto: /productos/:id
+- GET para mostrar todos los productos: /productos
+- GET de producto por id: /productos/:id
+- GET de productos por Categoria: /productos/categoria/:categoria
+- POST de producto: /productos/
+- PUT de producto: /productos/:id
+- DELETE de producto: /productos/:id
 
 Carritos:
-GET de todos los productos en carrito del usuario: /carrito/
-POST para agregar producto al carrito: /carrito/:id/productos
-DELETE de carrito por id: /carrito/:id
-DELETE de producto en carrito: /carrito/:id/productos/
+- GET de todos los productos en carrito del usuario: /carrito/
+- POST para agregar producto al carrito: /carrito/:id/productos
+- DELETE de carrito por id: /carrito/:id
+- DELETE de producto en carrito: /carrito/:id/productos/
 
 Órdenes:
-GET de todas las ordenes: /orden/
-GET de orden por id: /ordenes/:id
-POST de creación de orden: /orden/
-PUT de orden: /orden/:id
-DELETE de orden por id: /orden/:id
+- GET de todas las ordenes: /orden/
+- GET de orden por id: /ordenes/:id
+- POST de creación de orden: /orden/
+- PUT de orden: /orden/:id
+- DELETE de orden por id: /orden/:id
 
 Chat:
-GET de todos los mensajes del chat: /chat/
-GET de orden por usuario: /chat/:email
+- GET de todos los mensajes del chat: /chat/
+- GET de mensajes por usuario: /chat/:email
